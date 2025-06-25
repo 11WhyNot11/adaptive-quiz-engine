@@ -23,10 +23,16 @@ public class UserController {
     private final UserService userService;
     private final UserMapper userMapper;
 
-    @PostMapping
-    public ResponseEntity<UserResponseDto> save(@RequestBody @Valid UserRequestDto dto,
+        @PostMapping
+        public ResponseEntity<UserResponseDto> save(@RequestBody @Valid UserRequestDto dto,
+                                                    @AuthenticationPrincipal User currentUser) {
+            return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(dto, currentUser));
+        }
+
+    @PostMapping("/admins")
+    public ResponseEntity<UserResponseDto> createAdmin(@RequestBody @Valid UserRequestDto dto,
                                                 @AuthenticationPrincipal User currentUser) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(dto, currentUser));
+        return ResponseEntity.status(HttpStatus.CREATED).body(userService.createAdmin(dto, currentUser));
     }
 
     @GetMapping("/{id}")

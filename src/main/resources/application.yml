@@ -12,6 +12,11 @@ spring:
         show_sql: true
   flyway:
     enabled: true
+  springdoc:
+    swagger-ui:
+      enabled: true
+    api-docs:
+      enabled: true
 
 server:
   port: 8080
