@@ -16,6 +16,16 @@ public class GlobalExceptionHandler {
         return buildErrorResponse(HttpStatus.NOT_FOUND, exception.getMessage());
     }
 
+    @ExceptionHandler(QuestionNotFoundException.class)
+    public ResponseEntity<ApiErrorResponse> questionNotFoundException(QuestionNotFoundException exception) {
+        return buildErrorResponse(HttpStatus.NOT_FOUND, exception.getMessage());
+    }
+
+    @ExceptionHandler(InvalidQuestionException.class)
+    public ResponseEntity<ApiErrorResponse> invalidQuestionException (InvalidQuestionException exception) {
+        return buildErrorResponse(HttpStatus.BAD_REQUEST, exception.getMessage());
+    }
+
     private ResponseEntity<ApiErrorResponse> buildErrorResponse(HttpStatus status, String message) {
         ApiErrorResponse error = new ApiErrorResponse(
                 message,

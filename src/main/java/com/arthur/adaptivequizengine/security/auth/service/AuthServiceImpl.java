@@ -8,6 +8,7 @@ import com.arthur.adaptivequizengine.user.entity.Role;
 import com.arthur.adaptivequizengine.user.entity.User;
 import com.arthur.adaptivequizengine.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -43,8 +44,12 @@ public class AuthServiceImpl implements AuthService {
         var user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
+        System.out.println("➡️ Email: " + request.getEmail());
+        System.out.println("➡️ Raw password (request): " + request.getPassword());
+        System.out.println("➡️ Encoded password (from DB): " + user.getPassword());
+
         if(!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            throw new RuntimeException("Invalid credentials");
+            throw new BadCredentialsException("Invalid credentials");
         }
 
         var token = jwtService.generateToken(user);
