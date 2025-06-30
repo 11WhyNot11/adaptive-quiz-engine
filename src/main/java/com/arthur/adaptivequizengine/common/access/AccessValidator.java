@@ -1,5 +1,8 @@
 package com.arthur.adaptivequizengine.common.access;
 
+import com.arthur.adaptivequizengine.exception.handler.InvalidAnswerException;
+import com.arthur.adaptivequizengine.question.entity.AnswerOption;
+import com.arthur.adaptivequizengine.question.entity.Question;
 import com.arthur.adaptivequizengine.user.entity.Role;
 import com.arthur.adaptivequizengine.user.entity.User;
 import org.springframework.security.access.AccessDeniedException;
@@ -17,6 +20,12 @@ public class AccessValidator {
     public void validateCanDeleteUser(User currentUser, Long targetUserId) {
         if(!currentUser.getId().equals(targetUserId) && currentUser.getRole() != Role.ADMIN) {
             throw new AccessDeniedException("You don't have permission to delete this user");
+        }
+    }
+
+    public void validateAnswerOptionBelongsToQuestion(AnswerOption option, Question question) {
+        if(!option.getQuestion().getId().equals(question.getId())) {
+            throw new InvalidAnswerException("Answer option does not belong to the given question");
         }
     }
 }

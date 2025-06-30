@@ -1,5 +1,6 @@
 package com.arthur.adaptivequizengine.question.entity;
 
+import com.arthur.adaptivequizengine.answer.entity.Answer;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,4 +34,7 @@ public class Question {
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AnswerOption> options = new ArrayList<>();
+
+    @OneToMany(mappedBy = "question")
+    private List<Answer> answers = new ArrayList<>();
 }

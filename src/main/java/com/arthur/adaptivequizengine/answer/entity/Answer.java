@@ -1,0 +1,43 @@
+package com.arthur.adaptivequizengine.answer.entity;
+
+import com.arthur.adaptivequizengine.question.entity.AnswerOption;
+import com.arthur.adaptivequizengine.question.entity.Question;
+import com.arthur.adaptivequizengine.user.entity.User;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Entity
+@Table(name = "answers")
+public class Answer {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "question_id", nullable = false)
+    private Question question;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "answer_option_id", nullable = false)
+    private AnswerOption answerOption;
+
+    @Column(nullable = false)
+    private Boolean isCorrect;
+
+    @Column(nullable = false)
+    private LocalDateTime createdAt;
+}

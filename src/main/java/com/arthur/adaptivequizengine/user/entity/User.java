@@ -1,10 +1,11 @@
 package com.arthur.adaptivequizengine.user.entity;
 
+import com.arthur.adaptivequizengine.answer.entity.Answer;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -12,6 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @Entity
 @Table(name = "users")
+@ToString(exclude = "answers")
 public class User {
 
     @Id
@@ -30,4 +32,7 @@ public class User {
 
     @Column(nullable = false)
     private boolean enabled;
+
+    @OneToMany(mappedBy = "user")
+    private List<Answer> answers = new ArrayList<>();
 }

@@ -1,10 +1,14 @@
 package com.arthur.adaptivequizengine.question.entity;
 
+import com.arthur.adaptivequizengine.answer.entity.Answer;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -27,4 +31,7 @@ public class AnswerOption {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "qustion_id")
     private Question question;
+
+    @OneToMany(mappedBy = "answerOption")
+    private List<Answer> answers = new ArrayList<>();
 }
