@@ -9,10 +9,12 @@ import com.arthur.adaptivequizengine.user.entity.User;
 import com.arthur.adaptivequizengine.user.mapper.UserMapper;
 import com.arthur.adaptivequizengine.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService{
@@ -29,6 +31,8 @@ public class UserServiceImpl implements UserService{
 
         var savedEntity = userRepository.save(entity);
 
+        log.info("Admin {} created user {}", currentUser.getId(), savedEntity.getId());
+
         return userMapper.toDto(savedEntity);
     }
 
@@ -40,6 +44,9 @@ public class UserServiceImpl implements UserService{
         entity.setRole(Role.ADMIN);
 
         var savedEntity = userRepository.save(entity);
+
+
+        log.info("Admin {} created new admin {}", currentUser.getId(), savedEntity.getId());
 
         return userMapper.toDto(savedEntity);
     }
@@ -72,6 +79,8 @@ public class UserServiceImpl implements UserService{
 
         var user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(id));
+
+        log.info("user {} deleted by admin {}", user.getId(), currentUser.getId());
 
         userRepository.delete(user);
     }

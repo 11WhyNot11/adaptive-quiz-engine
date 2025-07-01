@@ -14,11 +14,13 @@ import com.arthur.adaptivequizengine.question.repository.AnswerOptionRepository;
 import com.arthur.adaptivequizengine.question.repository.QuestionRepository;
 import com.arthur.adaptivequizengine.user.entity.User;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AnswerServiceImpl implements AnswerService{
@@ -50,6 +52,9 @@ public class AnswerServiceImpl implements AnswerService{
                 .build();
 
         var savedAnswer = answerRepository.save(answer);
+
+        log.info("User {} submitted answer to question {}. Correct: {}",
+                currentUser.getId(), question.getId(), isCorrect);
 
         return answerMapper.toDto(savedAnswer);
 

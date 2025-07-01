@@ -12,11 +12,13 @@ import com.arthur.adaptivequizengine.question.mapper.QuestionMapper;
 import com.arthur.adaptivequizengine.question.repository.QuestionRepository;
 import com.arthur.adaptivequizengine.user.entity.User;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class QuestionServiceImpl implements  QuestionService{
@@ -38,6 +40,12 @@ public class QuestionServiceImpl implements  QuestionService{
         }
 
         var saved = questionRepository.save(question);
+
+        log.info("Admin {} created question: \"{}\" [topic={}, difficulty={}]",
+                currentUser.getId(),
+                dto.getText(),
+                dto.getTopic(),
+                dto.getDifficulty());
 
         return questionMapper.toDto(saved);
     }
@@ -80,6 +88,9 @@ public class QuestionServiceImpl implements  QuestionService{
 
         var saved = questionRepository.save(question);
 
+        log.info("Admin {} updated question {}: new text=\"{}\", topic={}, difficulty={}",
+                currentUser.getId(), id, dto.getText(), dto.getTopic(), dto.getDifficulty());
+
         return questionMapper.toDto(saved);
     }
 
@@ -91,5 +102,7 @@ public class QuestionServiceImpl implements  QuestionService{
                 .orElseThrow(() -> new QuestionNotFoundException(id));
 
         questionRepository.delete(question);
+
+        log.info("Admin {} deleted question {}", currentUser.getId(), id);
     }
 }
