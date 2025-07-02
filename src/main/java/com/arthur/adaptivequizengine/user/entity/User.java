@@ -3,6 +3,7 @@ package com.arthur.adaptivequizengine.user.entity;
 import com.arthur.adaptivequizengine.answer.entity.Answer;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.envers.Audited;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity
+@Audited
 @Table(name = "users")
 @ToString(exclude = "answers")
 public class User {

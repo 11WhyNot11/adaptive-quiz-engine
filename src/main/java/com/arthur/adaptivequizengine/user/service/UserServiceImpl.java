@@ -10,6 +10,7 @@ import com.arthur.adaptivequizengine.user.mapper.UserMapper;
 import com.arthur.adaptivequizengine.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,12 +22,14 @@ public class UserServiceImpl implements UserService{
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final AccessValidator accessValidator;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public UserResponseDto save(UserRequestDto dto, User currentUser) {
         accessValidator.validateIsAdmin(currentUser);
 
         var entity = userMapper.toEntity(dto);
+        entity.setPassword(passwordEncoder.encode(entity.getPassword()));
         entity.setRole(Role.USER);
 
         var savedEntity = userRepository.save(entity);

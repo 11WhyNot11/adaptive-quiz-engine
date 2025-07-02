@@ -47,7 +47,6 @@ public class AnswerServiceImpl implements AnswerService{
                 .answerOption(answerOption)
                 .question(question)
                 .user(currentUser)
-                .createdAt(LocalDateTime.now())
                 .isCorrect(isCorrect)
                 .build();
 

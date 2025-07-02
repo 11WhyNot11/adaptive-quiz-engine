@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.envers.Audited;
 
 import java.time.LocalDateTime;
 
@@ -16,8 +17,9 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @Entity
+@Audited
 @Table(name = "answers")
-public class Answer {
+public class Answer{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,7 +39,4 @@ public class Answer {
 
     @Column(nullable = false)
     private Boolean isCorrect;
-
-    @Column(nullable = false)
-    private LocalDateTime createdAt;
 }
