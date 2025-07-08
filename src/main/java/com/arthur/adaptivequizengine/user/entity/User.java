@@ -1,6 +1,7 @@
 package com.arthur.adaptivequizengine.user.entity;
 
 import com.arthur.adaptivequizengine.answer.entity.Answer;
+import com.arthur.adaptivequizengine.quizSession.entity.QuizSession;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.envers.Audited;
@@ -15,7 +16,7 @@ import java.util.List;
 @Entity
 @Audited
 @Table(name = "users")
-@ToString(exclude = "answers")
+@ToString(exclude = {"answers", "sessions"})
 public class User {
 
     @Id
@@ -36,5 +37,10 @@ public class User {
     private boolean enabled;
 
     @OneToMany(mappedBy = "user")
+    @Builder.Default
     private List<Answer> answers = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    @Builder.Default
+    private List<QuizSession> sessions = new ArrayList<>();
 }

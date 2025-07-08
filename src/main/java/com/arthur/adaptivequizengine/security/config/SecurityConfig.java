@@ -46,6 +46,7 @@ public class SecurityConfig {
                         // Дозволено всім авторизованим юзерам
                         .requestMatchers(HttpMethod.GET, "/api/users/me", "/api/questions/**").authenticated()
                         .requestMatchers(HttpMethod.POST,"/api/answers").authenticated()
+                        .requestMatchers(HttpMethod.POST,"/api/sessions").authenticated()
 
                         // Адмін-доступ
                         .requestMatchers("/api/users/**").hasRole("ADMIN")

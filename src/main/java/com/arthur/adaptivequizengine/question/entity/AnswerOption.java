@@ -35,5 +35,6 @@ public class AnswerOption {
     private Question question;
 
     @OneToMany(mappedBy = "answerOption")
+    @Builder.Default
     private List<Answer> answers = new ArrayList<>();
 }
