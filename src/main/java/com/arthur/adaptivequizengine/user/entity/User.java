@@ -36,6 +36,10 @@ public class User {
     @Column(nullable = false)
     private boolean enabled;
 
+    @Version
+    @Column(nullable = false)
+    private Long version;
+
     @OneToMany(mappedBy = "user")
     @Builder.Default
     private List<Answer> answers = new ArrayList<>();

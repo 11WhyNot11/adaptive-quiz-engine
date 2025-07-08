@@ -11,7 +11,7 @@ spring:
         format_sql: true
         show_sql: true
   flyway:
-    enabled: true
+    enabled: false
   springdoc:
     swagger-ui:
       enabled: true

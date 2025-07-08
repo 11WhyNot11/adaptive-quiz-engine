@@ -34,6 +34,10 @@ public class Question {
     @Column(nullable = false)
     private String topic;
 
+    @Version
+    @Column(nullable = false)
+    private Long version;
+
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<AnswerOption> options = new ArrayList<>();
