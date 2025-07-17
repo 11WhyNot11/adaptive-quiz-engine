@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 public abstract class QuestionMapper {
 
 
+    @Mapping(source = "options", target = "options")
     public abstract QuestionResponseDto toDto(Question question);
 
     public abstract List<QuestionResponseDto> toDtoList(List<Question> questions);

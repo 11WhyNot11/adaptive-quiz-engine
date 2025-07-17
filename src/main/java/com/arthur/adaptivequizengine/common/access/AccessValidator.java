@@ -3,6 +3,7 @@ package com.arthur.adaptivequizengine.common.access;
 import com.arthur.adaptivequizengine.exception.handler.InvalidAnswerException;
 import com.arthur.adaptivequizengine.question.entity.AnswerOption;
 import com.arthur.adaptivequizengine.question.entity.Question;
+import com.arthur.adaptivequizengine.quizSession.entity.QuizSession;
 import com.arthur.adaptivequizengine.user.entity.Role;
 import com.arthur.adaptivequizengine.user.entity.User;
 import org.springframework.security.access.AccessDeniedException;
@@ -26,6 +27,12 @@ public class AccessValidator {
     public void validateAnswerOptionBelongsToQuestion(AnswerOption option, Question question) {
         if(!option.getQuestion().getId().equals(question.getId())) {
             throw new InvalidAnswerException("Answer option does not belong to the given question");
+        }
+    }
+
+    public void validateUserOwnsSession(User currentUser, QuizSession session) {
+        if(!currentUser.getId().equals(session.getUser().getId())) {
+            throw new AccessDeniedException("Only user who created the session can access this resource");
         }
     }
 }

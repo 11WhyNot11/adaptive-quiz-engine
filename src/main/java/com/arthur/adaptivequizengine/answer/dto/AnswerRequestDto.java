@@ -17,4 +17,7 @@ public class AnswerRequestDto {
 
     @NotNull(message = "answerOptionId must not be null")
     private Long answerOptionId;
+
+    @NotNull(message = "quizSessionId must not be null")
+    private Long quizSessionId;
 }

@@ -1,5 +1,6 @@
 package com.arthur.adaptivequizengine.quizSession.entity;
 
+import com.arthur.adaptivequizengine.question.entity.Difficulty;
 import com.arthur.adaptivequizengine.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -24,6 +25,10 @@ public class QuizSession {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    @Enumerated(value = EnumType.STRING)
+    @Column(nullable = false)
+    private Difficulty initialDifficulty;
 
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)

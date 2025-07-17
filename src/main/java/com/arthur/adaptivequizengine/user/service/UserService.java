@@ -11,6 +11,7 @@ public interface UserService {
     UserResponseDto save(UserRequestDto dto, User currentUser);
     UserResponseDto createAdmin(UserRequestDto dto, User currentUser);
     UserResponseDto findById(Long id, User currentUser);
+    User getByEmail(String email);
     List<UserResponseDto> findAll(User currentUser);
     void deleteById(Long id, User currentUser);
 }

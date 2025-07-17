@@ -15,6 +15,7 @@ public class AnswerResponseDto {
     private Long id;
     private Long questionId;
     private Long answerOptionId;
+    private Long quizSessionId;
     private Boolean isCorrect;
     private LocalDateTime createdAt;
 }

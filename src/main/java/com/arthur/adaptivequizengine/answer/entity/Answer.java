@@ -2,6 +2,7 @@ package com.arthur.adaptivequizengine.answer.entity;
 
 import com.arthur.adaptivequizengine.question.entity.AnswerOption;
 import com.arthur.adaptivequizengine.question.entity.Question;
+import com.arthur.adaptivequizengine.quizSession.entity.QuizSession;
 import com.arthur.adaptivequizengine.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -40,6 +41,10 @@ public class Answer{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "answer_option_id", nullable = false)
     private AnswerOption answerOption;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "quiz_session_id", nullable = false)
+    private QuizSession quizSession;
 
     @Column(nullable = false)
     private Boolean isCorrect;

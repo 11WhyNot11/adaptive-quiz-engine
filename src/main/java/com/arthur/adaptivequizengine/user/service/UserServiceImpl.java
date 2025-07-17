@@ -65,6 +65,14 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public User getByEmail(String email) {
+        var user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException(email));
+
+        return user;
+    }
+
+    @Override
     public List<UserResponseDto> findAll(User currentUser) {
         accessValidator.validateIsAdmin(currentUser);
 

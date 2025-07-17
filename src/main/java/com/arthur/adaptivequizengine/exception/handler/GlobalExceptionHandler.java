@@ -56,6 +56,12 @@ public class GlobalExceptionHandler {
         return buildErrorResponse(HttpStatus.NOT_FOUND, exception.getMessage());
     }
 
+    @ExceptionHandler(SessionNotFoundException.class)
+    public ResponseEntity<ApiErrorResponse> sessionNotFoundException(SessionNotFoundException exception) {
+        log.warn("Session not found: {}", exception.getMessage());
+        return buildErrorResponse(HttpStatus.NOT_FOUND, exception.getMessage());
+    }
+
     @ExceptionHandler(InvalidQuestionException.class)
     public ResponseEntity<ApiErrorResponse> invalidQuestionException (InvalidQuestionException exception) {
         log.warn("Invalid question: {}", exception.getMessage());
