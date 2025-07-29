@@ -93,9 +93,8 @@ public class QuizSessionServiceImpl implements QuizSessionService {
         );
 
         Question question = searchOrder
-                .map(diff -> questionRepository.findFirstByDifficultyAndIdNotIn(diff, answeredQuestionIds))
-                .filter(Optional::isPresent)
-                .map(Optional::get)
+                .map(diff -> questionRepository.findByDifficultyAndIdNotIn(diff, answeredQuestionIds))
+                .flatMap(questions -> questions.stream().findFirst().stream()) // <- ключ
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException("No available questions at any difficulty"));
 
@@ -191,24 +190,28 @@ public class QuizSessionServiceImpl implements QuizSessionService {
         }
 
 
-        var questionOpt = questionRepository.findFirstByDifficultyAndIdNotIn(nextDifficulty, answeredQuestionIds);
+        List<Question> candidates = questionRepository.findByDifficultyAndIdNotIn(nextDifficulty, answeredQuestionIds);
+        Question question = null;
 
-
-        if(questionOpt.isEmpty()) {
+        if (candidates.isEmpty()) {
             for (Difficulty diff : Difficulty.values()) {
-                if(diff != nextDifficulty) {
-                    questionOpt = questionRepository.findFirstByDifficultyAndIdNotIn(diff, answeredQuestionIds);
-                    if (questionOpt.isPresent()) break;
+                if (diff != nextDifficulty) {
+                    candidates = questionRepository.findByDifficultyAndIdNotIn(diff, answeredQuestionIds);
+                    if (!candidates.isEmpty()) {
+                        question = candidates.get(0);
+                        break;
+                    }
                 }
             }
+        } else {
+            question = candidates.get(0);
         }
 
-        if (questionOpt.isEmpty()) {
+        if (question == null) {
             return autoFinishSession(session);
         }
 
-
-        return questionMapper.toDto(questionOpt.get());
+        return questionMapper.toDto(question);
 
     }
 

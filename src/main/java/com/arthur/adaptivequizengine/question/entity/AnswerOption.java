@@ -31,7 +31,7 @@ public class AnswerOption {
     private Boolean isCorrect;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "qustion_id")
+    @JoinColumn(name = "question_id", nullable = false)
     private Question question;
 
     @OneToMany(mappedBy = "answerOption")

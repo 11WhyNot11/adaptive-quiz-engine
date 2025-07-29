@@ -40,6 +40,23 @@ public class AnswerServiceImpl implements AnswerService{
 
     @Override
     public AnswerResponseDto submitAnswer(AnswerRequestDto dto, User currentUser) {
+
+        System.out.println("▶️ submitAnswer() called with:");
+        System.out.println("   - questionId: " + dto.getQuestionId());
+        System.out.println("   - answerOptionId: " + dto.getAnswerOptionId());
+        System.out.println("   - quizSessionId: " + dto.getQuizSessionId());
+
+
+        if (dto.getQuestionId() == null) {
+            throw new IllegalArgumentException("Question ID must not be null");
+        }
+        if (dto.getAnswerOptionId() == null) {
+            throw new IllegalArgumentException("AnswerOption ID must not be null");
+        }
+        if (dto.getQuizSessionId() == null) {
+            throw new IllegalArgumentException("QuizSession ID must not be null");
+        }
+
         var question = questionRepository.findById(dto.getQuestionId())
                 .orElseThrow(() -> new QuestionNotFoundException(dto.getQuestionId()));
 
@@ -52,7 +69,7 @@ public class AnswerServiceImpl implements AnswerService{
         accessValidator.validateAnswerOptionBelongsToQuestion(answerOption, question);
         accessValidator.validateUserOwnsSession(currentUser, session);
 
-        if(session.getStatus() != QuizSessionStatus.IN_PROGRESS) {
+        if (session.getStatus() != QuizSessionStatus.IN_PROGRESS) {
             throw new ConflictException("You can submit answers only when session is active");
         }
 
@@ -75,7 +92,6 @@ public class AnswerServiceImpl implements AnswerService{
         }
 
         var isCorrect = answerOption.getIsCorrect();
-
         var answer = Answer.builder()
                 .answerOption(answerOption)
                 .question(question)
@@ -86,10 +102,9 @@ public class AnswerServiceImpl implements AnswerService{
 
         var savedAnswer = answerRepository.save(answer);
 
-        log.info("User {} submitted answer to question {}. Correct: {}",
+        log.info("✅ User {} submitted answer to question {}. Correct: {}",
                 currentUser.getId(), question.getId(), isCorrect);
 
         return answerMapper.toDto(savedAnswer);
-
     }
 }

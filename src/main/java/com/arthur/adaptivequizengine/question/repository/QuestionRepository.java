@@ -16,9 +16,11 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
     @Query("""
         SELECT q FROM Question q
         WHERE q.difficulty = :difficulty
-            AND q.id NOT IN :excludedIds
+          AND q.id NOT IN :excludedIds
     """)
     @EntityGraph(attributePaths = "options")
-    Optional<Question> findFirstByDifficultyAndIdNotIn(@Param("difficulty") Difficulty difficulty,
-                                                       @Param("excludedIds") Set<Long> excludedIds);
+    List<Question> findByDifficultyAndIdNotIn(@Param("difficulty") Difficulty difficulty,
+                                              @Param("excludedIds") Set<Long> excludedIds);
+
+    Optional<Question> findByText(String text);
 }

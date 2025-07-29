@@ -20,4 +20,9 @@ public class AnswerRequestDto {
 
     @NotNull(message = "quizSessionId must not be null")
     private Long quizSessionId;
+
+    public AnswerRequestDto(Long questionId, Long answerOptionId) {
+        this.questionId = questionId;
+        this.answerOptionId = answerOptionId;
+    }
 }
