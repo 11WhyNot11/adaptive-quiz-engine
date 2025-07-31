@@ -4,15 +4,20 @@ import com.arthur.adaptivequizengine.common.access.AccessValidator;
 import com.arthur.adaptivequizengine.exception.handler.InvalidQuestionException;
 import com.arthur.adaptivequizengine.exception.handler.QuestionNotFoundException;
 import com.arthur.adaptivequizengine.question.dto.AnswerOptionDto;
+import com.arthur.adaptivequizengine.question.dto.QuestionFilterRequest;
 import com.arthur.adaptivequizengine.question.dto.QuestionRequestDto;
 import com.arthur.adaptivequizengine.question.dto.QuestionResponseDto;
 import com.arthur.adaptivequizengine.question.entity.AnswerOption;
 import com.arthur.adaptivequizengine.question.entity.Question;
 import com.arthur.adaptivequizengine.question.mapper.QuestionMapper;
 import com.arthur.adaptivequizengine.question.repository.QuestionRepository;
+import com.arthur.adaptivequizengine.question.specification.QuestionSpecification;
 import com.arthur.adaptivequizengine.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -104,5 +109,13 @@ public class QuestionServiceImpl implements  QuestionService{
         questionRepository.delete(question);
 
         log.info("Admin {} deleted question {}", currentUser.getId(), id);
+    }
+
+    
+    @Override
+    public Page<QuestionResponseDto> getQuestionsWithFilter(QuestionFilterRequest filterRequest, Pageable pageable) {
+        Specification<Question> spec = QuestionSpecification.withFilter(filterRequest);
+        Page<Question> questionPage = questionRepository.findAll(spec, pageable);
+        return questionPage.map(questionMapper::toDto);
     }
 }

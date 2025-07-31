@@ -1,5 +1,6 @@
 package com.arthur.adaptivequizengine.question.controller;
 
+import com.arthur.adaptivequizengine.question.dto.QuestionFilterRequest;
 import com.arthur.adaptivequizengine.question.dto.QuestionRequestDto;
 import com.arthur.adaptivequizengine.question.dto.QuestionResponseDto;
 import com.arthur.adaptivequizengine.question.service.QuestionService;
@@ -12,6 +13,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -57,6 +62,22 @@ public class QuestionController {
     @GetMapping
     public ResponseEntity<List<QuestionResponseDto>> getAllQuestions() {
         return ResponseEntity.ok(questionService.getAllQuestions());
+    }
+
+    @Operation(
+            summary = "Get all filtered questions",
+            description = "Retrieve a list of filtered quiz questions"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "List of questions returned successfully")
+    })
+    @GetMapping("/filter")
+    public ResponseEntity<Page<QuestionResponseDto>>  getQuestionsWithFilter
+            (@ModelAttribute QuestionFilterRequest filterRequest,
+             @ParameterObject Pageable pageable) {
+        var result = questionService.getQuestionsWithFilter(filterRequest, pageable);
+        return ResponseEntity.ok(result);
+
     }
 
     @Operation(

@@ -9,4 +9,8 @@ import java.util.List;
 public interface AnswerRepository extends JpaRepository<Answer, Long> {
 
     List<Answer> findByQuizSession(QuizSession quizSession);
+
+    List<Answer> findAllByQuizSession_Id(Long sessionId);
 }
+
+
