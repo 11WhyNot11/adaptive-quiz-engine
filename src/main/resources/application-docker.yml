@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/adaptive_quiz_engine
+    url: jdbc:postgresql://db:5432/adaptive_quiz_engine
     username: postgres
     password: postgres
   jpa:
@@ -12,11 +12,12 @@ spring:
         show_sql: true
   flyway:
     enabled: false
-  springdoc:
-    swagger-ui:
-      enabled: true
-    api-docs:
-      enabled: true
+
+springdoc:
+  swagger-ui:
+    enabled: true
+  api-docs:
+    enabled: true
 
 server:
   port: 8080
