@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://db:5432/adaptive_quiz_engine
+    username: postgres
+    password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+  flyway:
+    enabled: false
+
+springdoc:
+  swagger-ui:
+    enabled: true
+  api-docs:
+    enabled: true
+
+server:
+  port: 8080
